@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:the_transporter/services/auth_service.dart';
-import 'package:the_transporter/screens/auth/sign_up.dart';
 
-class SignIn extends StatefulWidget {
-  const SignIn({super.key});
+class SignUp extends StatefulWidget {
+  const SignUp({super.key});
 
   @override
-  State<SignIn> createState() => _SignInState();
+  State<SignUp> createState() => _SignUpState();
 }
 
-class _SignInState extends State<SignIn> {
+class _SignUpState extends State<SignUp> {
   final AuthService _auth = AuthService();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -21,7 +20,7 @@ class _SignInState extends State<SignIn> {
     return Scaffold(
       backgroundColor: Colors.brown[100],
       appBar: AppBar(
-        title: Text('Sign In'),
+        title: Text('Sign Up'),
         backgroundColor: Colors.brown[400],
         elevation: 0.0,
       ),
@@ -45,31 +44,21 @@ class _SignInState extends State<SignIn> {
               ),
               SizedBox(height: 20.0),
               ElevatedButton(
-                child: Text('Sign In'),
+                child: Text('Sign Up'),
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    dynamic result = await _auth.signInWithEmail(
+                    dynamic result = await _auth.signUpWithEmail(
                       _emailController.text.trim(),
                       _passwordController.text.trim(),
                     );
                     if (result == null) {
                       setState(() {
-                        error = 'Could not sign in with those credentials';
+                        error = 'Please supply a valid email';
                       });
                     } else {
                       Navigator.pushReplacementNamed(context, '/home');
                     }
                   }
-                },
-              ),
-              SizedBox(height: 12.0),
-              ElevatedButton(
-                child: Text('Register'),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SignUp()),
-                  );
                 },
               ),
               SizedBox(height: 12.0),
